@@ -1,9 +1,11 @@
 <p align="center">
   <img src="assets/logo.PNG" alt="Cloudgram Logo" width="256">
   <br>
-  <b>A lightweight JavaScript starter template for building Telegram bots on Telegram Serverless</b>
+  <b>A lightweight JavaScript starter template</b>
   <br>
-  <i>Sounds interesting? Check more about [Telegram Serverless](https://core.telegram.org/bots/serverless)</i>
+  <b>for building Telegram bots on Telegram Serverless</b>
+  <br>
+  <i>Sounds interesting? Check more about <a href="https://core.telegram.org/bots/serverless">Telegram Serverless</a></i>
 </p>
 
 <p align="center">
