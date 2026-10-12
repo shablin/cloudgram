@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" alt="Cloudgram Logo" width="256">
+  <img src="assets/logo.PNG" alt="Cloudgram Logo" width="256">
   <br>
   <b>A lightweight JavaScript starter template for building Telegram bots on Telegram Serverless</b>
   <br>
