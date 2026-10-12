@@ -14,3 +14,4 @@
   <img src="https://img.shields.io/github/v/release/shablin/cloudgram?style=for-the-badge&color=blue" alt="Release">
   <img src="https://img.shields.io/github/license/shablin/cloudgram?style=for-the-badge" alt="License">
 </p>
+<br>

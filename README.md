@@ -14,3 +14,6 @@
   <img src="https://img.shields.io/github/v/release/shablin/cloudgram?style=for-the-badge&color=blue" alt="Release">
   <img src="https://img.shields.io/github/license/shablin/cloudgram?style=for-the-badge" alt="License">
 </p>
+<p align="center">
+	<b><a href="./README.md">🇺🇸 English</a></b> | <a href="./README.ru.md">🇷🇺 Русский</a>
+</p>
