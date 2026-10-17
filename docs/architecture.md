@@ -52,7 +52,7 @@ and framework behavior
 > not strict implementations
 
 # 4. Project Structure
-_Will be added soon..._
+[Learn more...](./project_structure.md)
 
 # 5. Application instance
 The initial public API uses a shared application instance named `bot`. Bot 
