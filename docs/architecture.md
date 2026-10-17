@@ -1,8 +1,8 @@
 # Cloudgram Design
 
-> [!IMPORTANT]
-> *Version:* 0.1.0
-> *Status:* Draft
+> [!NOTE]
+> **Version:** 0.1.0
+> **Status:** Draft
 
 # 1. Purpose
 Cloudgram is a lightweight, modular JavaScript framework for building Telegram bots 
@@ -38,13 +38,13 @@ Simple bots must remain simple. Advanced capabilities must be optional.
 
 # 3. Architectural Style
 Cloudgram combines selected principles from:
-- *MVC.* Separation of route 
+- **MVC.** Separation of route 
 definitions and application handlers
-- *Modular monolith.* Modules are organized 
+- **Modular monolith.** Modules are organized 
 independently, and deployed as one application
-- *Middleware.* Reusable sequential 
+- **Middleware.** Reusable sequential 
 processing stages
-- *Ports and Adapters.* Separation between platform integration 
+- **Ports and Adapters.** Separation between platform integration 
 and framework behavior
 
 > [!IMPORTANT]
