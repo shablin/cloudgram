@@ -18,7 +18,7 @@ The application (bot) registers commands by associating a command name with a ha
 
 ```js
 bot.command('start', start)
-bot.command('help), help)
+bot.command('help', help)
 ```
 
 A route declaration registers a handler. It does not execute the handler 
