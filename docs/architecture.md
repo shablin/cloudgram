@@ -86,6 +86,8 @@ Coordinates:
 - Evaluates route conditions
 - Determines how unmatched events are handled
 
+[Learn more...](./routing.md)
+
 ## 7.3. Context
 Represents the current event and exposes common operations to handlers and 
 middleware
