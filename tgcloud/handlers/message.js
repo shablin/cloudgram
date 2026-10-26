@@ -2,12 +2,17 @@
 // Telegram update type; the platform calls the default export with the matching
 // payload (here, a Message). The full update is available as `ctx.update`.
 
-import { api } from 'sdk';
+import { bot } from "../lib/cloudgram/bot.js"
+import { debug } from "../lib/utils.js"
+import "../lib/bot/routes.js"
+
 
 export default async function (message, ctx) {
-  // Echo the text back — replace with your own logic.
-  await api.sendMessage({
-    chat_id: message.chat.id,
-    text: `You said: ${message.text ?? '(no text)'}`,
-  });
+  debug(
+    `NEW MESSAGE`,
+    `cid: ${message.chat.id}`,
+    `message: ${message.text}`
+  )
+  
+  await bot.handleMessage(message)
 }
