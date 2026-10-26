@@ -2,7 +2,7 @@ import { api } from 'sdk';
 
 
 export class Context {
-	constructor(message, command = null) {
+	constructor(message, command = "no!") {
 		this.message = message;
 		this.command = command;
 		this.api = api;
@@ -13,9 +13,9 @@ export class Context {
 	get text() { return this.message.text; }
 	
 	async reply(text, extra = {}) {
-		return api.sendMessage({
-			chat_id: this.message.chat_id,
-			text,
+		await api.sendMessage({
+			chat_id: this.message.chat.id,
+			text: text,
 			...extra,
 		});
 	}
