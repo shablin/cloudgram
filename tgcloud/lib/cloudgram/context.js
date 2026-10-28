@@ -1,5 +1,6 @@
 import { api } from 'sdk';
 import { render } from './format.js'
+import { debug } from '../utils.js';
 
 export class Context {
 	constructor(message, command = "no!") {
@@ -21,7 +22,9 @@ export class Context {
 	}
 	
 	async replyHTML(node, extra = {}) {
+		debug(JSON.stringify(node))
+
 		const { text, parse_mode } = render(node)
-		return this.reply(text, { parse_mode, ...extra })
+		return await this.reply(text, { parse_mode, ...extra })
 	}
 }
