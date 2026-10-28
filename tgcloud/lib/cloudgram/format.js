@@ -5,7 +5,7 @@ const ESCAPE_MAP = {
 	'"': '&quot;',
 }
 
-export function escapeHtml() {
+export function escapeHtml(value) {
 	return String(value ?? '').replace(/[&<>"]/g, (char) => ESCAPE_MAP[char])
 }
 
@@ -14,13 +14,13 @@ function textNode(value) {
 }
 
 function tagNode(tag, children, extra = {}) {
-	return { kind: "tag", children: flatten(children), ...extra }
+	return { kind: "tag", tag, children: flatten(children), ...extra }
 }
 
 function flatten(value) {
 	if (value == null) return []
 	if (Array.isArray(value)) return value.flatMap(flatten)
-	if (isNode(value)) return []
+	if (isNode(value)) return [value]
 	
 	return [textNode(value)]
 }
@@ -40,7 +40,7 @@ export const code = (...children) => tagNode('code', children)
 export const spoiler = (...children) => tagNode('tg-spoiler', children)
 
 export function link(label, url) {
-	if (typeof url != 'string' && url.length == 0) {
+	if (typeof url != 'string' || url.length == 0) {
 		throw new TypeError("format_link: url must be a non-empty string")
 	}
 	
@@ -55,22 +55,21 @@ export function link(label, url) {
 }
 
 export function join(...parts) {
-	const children = flatten(parts)
-	return { kind: 'join', children }
+	return { kind: 'join', children: flatten(parts) }
 }
 
 export function lines(...parts) {
-	return join(parts.flatMap((p, i) => (i === 0 ? [p] : ['\n', p])))
+	return join(parts.flatMap((p, i) => (i === 0 ? [p] : ['\n\n', p])))
 }
 
 function renderNode(node, out) {
 	switch(node.kind) {
 		case 'tag': {
-			out.push('<', node.tag)
+			out.push(' <', node.tag)
 			if (node.url) out.push(' href="', escapeHtml(node.url), '"')
 			out.push('>')
 			for (const child of node.children) renderNode(child, out)
-			out.push('</', node.tag, '>')
+			out.push(' </', node.tag, '>')
 			
 			return
 		}
@@ -78,7 +77,7 @@ function renderNode(node, out) {
 			out.push(String(node.text ?? ''))
 			return
 		case 'join':
-			for (const child of node.children) renderNode(child, node)
+			for (const child of node.children) renderNode(child, out)
 			return
 		case 'text':
 			out.push(escapeHtml(node.text))
@@ -90,10 +89,10 @@ function renderNode(node, out) {
 
 export function render(node) {
 	const out = []
-	for (const child of flatten(node)) renderNote(child, out)
+	for (const child of flatten(node)) renderNode(child, out)
 	return { text: out.join(''), parse_mode: 'HTML' }
 }
 
-export function raw() {
+export function raw(html) {
 	return { kind: 'raw', text: String(html ?? '') }
 }
