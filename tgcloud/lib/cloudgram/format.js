@@ -59,7 +59,7 @@ export function join(...parts) {
 }
 
 export function lines(...parts) {
-	return join(parts.flatMap((p, i) => (i === 0 ? [p] : ['\n\n', p])))
+	return join(parts.flatMap((p, i) => (i === 0 ? [p] : ['\n', p])))
 }
 
 function renderNode(node, out) {
