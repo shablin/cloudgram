@@ -20,7 +20,7 @@ export class Context {
 		});
 	}
 	
-	async replyHtml(node, extra = {}) {
+	async replyHTML(node, extra = {}) {
 		const { text, parse_mode } = render(node)
 		return this.reply(text, { parse_mode, ...extra })
 	}
