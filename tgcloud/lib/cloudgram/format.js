@@ -14,7 +14,7 @@ function textNode(value) {
 }
 
 function tagNode(tag, children, extra = {}) {
-	return { kind: "tag", children: flatten(children), ...extra)
+	return { kind: "tag", children: flatten(children), ...extra }
 }
 
 function flatten(value) {
@@ -44,9 +44,8 @@ export function link(label, url) {
 		throw new TypeError("format_link: url must be a non-empty string")
 	}
 	
-	const scheme = url.match(/^([a-z][a-z0-9+.-]*):/i)?
-					  .[1]?
-					  .toLowerCase()
+	let re = /^([a-z][a-z0-9+.-]*):/i
+	const scheme = url.match(re)?.[1]?.toLowerCase()
 	
 	if (scheme && !['http', 'https', 'tg', 'mailto'].includes(scheme)) {
 		throw new TypeError(`format_link: unsupported URL scheme: ${scheme}`)
@@ -61,33 +60,32 @@ export function join(...parts) {
 }
 
 export function lines(...parts) {
-	return join(parts.flatMap((p, 1) => (
-				i === 0 ? [p] : ['\n', p]
-		   )))
+	return join(parts.flatMap((p, i) => (i === 0 ? [p] : ['\n', p])))
 }
 
 function renderNode(node, out) {
-	switch(node.kind)
-	case 'tag': {
-		out.push('<', node.tag)
-		if (node.url) out.push(' href="', escapeHtml(node.url), '"')
-		out.push('>')
-		for (const child of node.children) renderNode(child, out)
-		out.push('</', node.tag, '>')
-		
-		return
+	switch(node.kind) {
+		case 'tag': {
+			out.push('<', node.tag)
+			if (node.url) out.push(' href="', escapeHtml(node.url), '"')
+			out.push('>')
+			for (const child of node.children) renderNode(child, out)
+			out.push('</', node.tag, '>')
+			
+			return
+		}
+		case 'raw':
+			out.push(String(node.text ?? ''))
+			return
+		case 'join':
+			for (const child of node.children) renderNode(child, node)
+			return
+		case 'text':
+			out.push(escapeHtml(node.text))
+			return
+		default:
+			throw new TypeError(`format: unknown node with kind: ${node.kind}`)
 	}
-	case 'raw':
-		out.push(String(node.text ?? ''))
-		return
-	case 'join':
-		for (const child of node.children) renderNode(child, node)
-		return
-	case 'text':
-		out.push(escapeHtml(node.text))
-		return
-	default:
-		throw new TypeError(`format: unknown node with kind: ${node.kind}`)
 }
 
 export function render(node) {
