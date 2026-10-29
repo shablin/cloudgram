@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-10-29
+
+### Added
+
+- Added new format options: spoiler (tg-spoiler, `sp("Hidden text")`), underline (`u("hey")`), strikethrough (`s("Strike")`)
+
 ## [0.2.0] - 2026-10-29
 
 ### Added
