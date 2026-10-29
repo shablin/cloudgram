@@ -23,8 +23,11 @@ export class Context {
 	
 	async replyHTML(node, extra = {}) {
 		debug(JSON.stringify(node))
-
-		const { text, parse_mode } = render(node)
-		return await this.reply(text, { parse_mode, ...extra })
+		const message  = render(node)
+		
+		return await this.reply(
+			message,
+			{ parse_mode: "HTML", ...extra }
+		)
 	}
 }
