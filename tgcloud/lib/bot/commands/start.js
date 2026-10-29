@@ -1,4 +1,4 @@
-import { i, h, b, br, c, a } from "../../cloudgram/format.js"
+import { i, h, b, br, c, a, sp, s, u } from "../../cloudgram/format.js"
 import { debug } from "../../utils.js"
 
 export default async function start(ctx) {
@@ -16,6 +16,8 @@ export default async function start(ctx) {
         br(),
         "2. You can register new commands in", c("tgcloud/lib/bot/routes.js"),
         br(2),
+        sp("⭐ If you like this project, please, give me a star at GitHub"),
+        br(),
         i("Use /help to see available commands")
     ]
 
