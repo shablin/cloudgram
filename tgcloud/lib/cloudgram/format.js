@@ -67,7 +67,3 @@ export const c	= (...content)			=> Node('code', {}, ...content)
 export const h 	= (text)				=> p(b(text), br(2))
 export const i	= (...content)			=> Node('i', {}, ...content)
 export const p	= (...content)			=> Node('', {}, ...content)
-
-// const test = p(h("HEading"), b("Hey there!"), i("ITALIC!"))
-// const markup = parse(test)
-// console.log(markup)

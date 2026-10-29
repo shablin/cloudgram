@@ -1,4 +1,3 @@
-//import { bold, italic, link, join, lines, code } from "../../cloudgram/format.js"
 import { i, h, b, br, c, a } from "../../cloudgram/format.js"
 import { debug } from "../../utils.js"
 
