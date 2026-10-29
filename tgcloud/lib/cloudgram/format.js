@@ -1,98 +1,73 @@
 const ESCAPE_MAP = {
-	'&': '&amp;',
-	'<': '&alt;',
-	'>': '&gt;',
-	'"': '&quot;',
+	'&': '&amp',
+	'<': '&lt',
+	'>': '&gt',
+	'"': '&quot'
 }
 
-export function escapeHtml(value) {
-	return String(value ?? '').replace(/[&<>"]/g, (char) => ESCAPE_MAP[char])
+function escapeText(value) {
+	return String(value ?? '').replace(/[&<>]/g, char => ESCAPE_MAP[char])
 }
 
-function textNode(value) {
-	return { kind: "text", text: String(value ?? '') }
+function escapeAttr(value) {
+	return String(value ?? '').replace(/[&<>"]/g, char => ESCAPE_MAP[char])
 }
 
-function tagNode(tag, children, extra = {}) {
-	return { kind: "tag", tag, children: flatten(children), ...extra }
+function Node(tagName, extra = {}, ...content) {
+	return { tagName, content, extra }
 }
 
-function flatten(value) {
-	if (value == null) return []
-	if (Array.isArray(value)) return value.flatMap(flatten)
-	if (isNode(value)) return [value]
+function isNode(node) {
+	return node != null && typeof node === 'object' && typeof node.tagName === 'string'
+}
+
+function joinSmart(parts) {
+	const filtered = parts.filter(p => p !== '')
+	let out = ''
 	
-	return [textNode(value)]
-}
-
-function isNode(value) {
-	return value != null &&
-	       typeof value == 'object' &&
-	       typeof value.kind == 'string'
-}
-
-
-export const bold = (...children) => tagNode('b', children)
-export const italic = (...children) => tagNode('i', children)
-export const underline = (...children) => tagNode('u', children)
-export const strike = (...children) => tagNode('s', children)
-export const code = (...children) => tagNode('code', children)
-export const spoiler = (...children) => tagNode('tg-spoiler', children)
-
-export function link(label, url) {
-	if (typeof url != 'string' || url.length == 0) {
-		throw new TypeError("format_link: url must be a non-empty string")
-	}
-	
-	let re = /^([a-z][a-z0-9+.-]*):/i
-	const scheme = url.match(re)?.[1]?.toLowerCase()
-	
-	if (scheme && !['http', 'https', 'tg', 'mailto'].includes(scheme)) {
-		throw new TypeError(`format_link: unsupported URL scheme: ${scheme}`)
-	}
-	
-	return tagNode('a', [label], { url })
-}
-
-export function join(...parts) {
-	return { kind: 'join', children: flatten(parts) }
-}
-
-export function lines(...parts) {
-	return join(parts.flatMap((p, i) => (i === 0 ? [p] : ['\n', p])))
-}
-
-function renderNode(node, out) {
-	switch(node.kind) {
-		case 'tag': {
-			out.push(' <', node.tag)
-			if (node.url) out.push(' href="', escapeHtml(node.url), '"')
-			out.push('>')
-			for (const child of node.children) renderNode(child, out)
-			out.push(' </', node.tag, '>')
-			
-			return
+	for (let i = 0; i < filtered.length; i++) {
+		if (i > 0) {
+			const prev = filtered[i - 1]
+			const curr = filtered[i]
+			if (!/\s$/.test(prev) && !/^\s/.test(curr)) out += ' '
 		}
-		case 'raw':
-			out.push(String(node.text ?? ''))
-			return
-		case 'join':
-			for (const child of node.children) renderNode(child, out)
-			return
-		case 'text':
-			out.push(escapeHtml(node.text))
-			return
-		default:
-			throw new TypeError(`format: unknown node with kind: ${node.kind}`)
+
+		out += filtered[i]
 	}
+
+	return out
 }
 
 export function render(node) {
-	const out = []
-	for (const child of flatten(node)) renderNode(child, out)
-	return { text: out.join(''), parse_mode: 'HTML' }
+	if (node == null || node === false) return ''
+	if (Array.isArray(node)) return joinSmart(node.map(render))
+	if (typeof node === 'string') return escapeText(node)
+	if (typeof node === 'number') return String(node)
+	if (!isNode(node)) throw new TypeError(`render: ${typeof node}`)
+
+	const content = joinSmart(node.content.map(render))
+
+	switch (node.tagName) {
+		case '':
+			return content
+		case 'a':
+			let hrefAttr = escapeAttr(node.extra?.href ?? '')
+			return `<a href="${hrefAttr}">${content}</a>`
+		case 'br':
+			return '\n'.repeat(node.extra?.size ?? 1)
+		default:
+			return `<${node.tagName}>${content}</${node.tagName}>`
+	}
 }
 
-export function raw(html) {
-	return { kind: 'raw', text: String(html ?? '') }
-}
+export const a	= (extra, ...content)	=> Node('a', extra, ...content)
+export const b	= (...content)			=> Node('b', {}, ...content)
+export const br = (size = 1)			=> Node('br', { size })
+export const c	= (...content)			=> Node('code', {}, ...content)
+export const h 	= (text)				=> p(b(text), br(2))
+export const i	= (...content)			=> Node('i', {}, ...content)
+export const p	= (...content)			=> Node('', {}, ...content)
+
+// const test = p(h("HEading"), b("Hey there!"), i("ITALIC!"))
+// const markup = parse(test)
+// console.log(markup)
