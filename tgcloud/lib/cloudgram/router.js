@@ -1,3 +1,5 @@
+import { debug } from "../utils.js";
+
 const COMMAND_RE = /^\/([A-Za-z0-9_]+)(?:@[A-Za-z0-9_]+)?(?:\s+([\s\S]*))?$/;
 
 export function parseCommand(text) {
@@ -16,6 +18,9 @@ export function parseCommand(text) {
 export class Router {
     constructor() {
         this.commands = new Map();
+        this.callbacks = new Map()
+
+        this.unknownCallbackHandler = null
         this.unknownHandler = null;
     }
 
@@ -45,12 +50,56 @@ export class Router {
         this.commands.set(normalized, handler)
     }
 
+    callback(data, handler) {
+        if (typeof data !== 'string') {
+            throw new TypeError('bot.callback: data must be a string')
+        }
+
+        if (typeof handler !== 'function') {
+            throw new TypeError(`bot.callback: handler for ${data} callback must be a function`)
+        }
+
+        if (this.callbacks.has(data)) {
+            throw new Error(`bot.callback: callback ${data} is already registered`)
+        }
+
+        this.callbacks.set(data, handler)
+    }
+
+    onUnknownCallback(handler) {
+        if (typeof handler !== 'function') {
+            throw new TypeError('bot.onUnknownCallback: handler must be a function')
+        }
+
+        this.unknownCallbackHandler = handler
+    }
+
     onUnknownCommand(handler) {
         if (typeof handler !== 'function') {
             throw new TypeError("bot.onUnknownCommand: handler must be a function")
         }
 
         this.unknownHandler = handler
+    }
+
+    async dispatchCallback(ctx) {
+        debug("reg cbs", [...this.callbacks.keys()])
+        debug("unk fallback", typeof this.unknownCallbackHandler)
+        debug("inc callback ctx", JSON.stringify(ctx))
+
+        const handler = this.callbacks.get(ctx.data)
+
+        if (handler) {
+            await handler(ctx)
+            return true
+        }
+
+        if (this.unknownCallbackHandler) {
+            await this.unknownCallbackHandler(ctx)
+            return true
+        }
+
+        return false
     }
 
     async dispatch(ctx) {
