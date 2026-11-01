@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-01
+
+### Added
+#### Keyboards Support
+- Implement keyboard command with inline buttons demonstration
+- Add keyboard utility functions for inline and markup keyboards
+- Add 'keyboards' command to handle keyboard interactions
+- Implement callback handling
+
+### Edited
+- Enhance help command with detailed command list and formatting
+
 ## [0.2.1] - 2026-10-29
 
 ### Added
