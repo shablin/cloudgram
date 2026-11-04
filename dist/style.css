@@ -1,0 +1,115 @@
+:root {
+    --tg-theme-bg-color: #ffffff;
+    --tg-theme-text-color: #000000;
+    --tg-theme-hint-color: #999999;
+    --tg-theme-link-color: #2481cc;
+    --tg-theme-button-color: #2481cc;
+    --tg-theme-button-text-color: #ffffff;
+    --tg-theme-secondary-bg-color: #f1f1f1;
+    --tg-theme-section-bg-color: #ffffff;
+    --tg-theme-section-header-text-color: #6d6d72;
+    --tg-theme-destructive-text-color: #ff3b30;
+    --tg-theme-accent-text-color: #2481cc;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    background:
+        radial-gradient(circle at 20% 0%, rgba(36, 129, 204, 0.16), transparent 45%),
+        radial-gradient(circle at 80% 100%, rgba(120, 80, 200, 0.12), transparent 40%),
+        var(--tg-theme-bg-color);
+    background-attachment: fixed;
+    color: var(--tg-theme-text-color);
+    -webkit-font-smoothing: antialiased;
+}
+
+.app {
+    padding: 16px;
+    padding-top: calc(16px + var(--tg-safe-area-inset-top, 0px));
+    padding-bottom: calc(16px + var(--tg-safe-area-inset-bottom, 0px));
+    max-width: 480px;
+    min-height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.link {
+    color: var(--tg-theme-link-color)
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.hint {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: var(--tg-theme-hint-color);
+}
+
+.card {
+    background: var(--tg-theme-section-bg-color);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 16px;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        inset 0 0.5px 0 rgba(255, 255, 255, 0.5);
+}
+
+.card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--tg-theme-secondary-bg-color);
+}
+
+.card-row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    font-size: 15px;
+    color: var(--tg-theme-hint-color);
+}
+
+.value {
+    font-size: 15px;
+    font-weight: 500;
+    text-align: right;
+}
+
+.button {
+    margin-top: auto;
+    appearance: none;
+    border: none;
+    border-radius: 100px;
+    padding: 14px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--tg-theme-button-text-color);
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+    background: var(--tg-theme-button-color);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        inset 0 0.5px 0 rgba(255, 255, 255, 1);
+}
+
+.button:active {
+    opacity: 0.7;
+}

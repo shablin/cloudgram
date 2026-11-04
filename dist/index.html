@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudgram Test Mini App</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <main class="app">
+        <header class="app-header">
+            <h1>Telegram Profile</h1>
+            <p class="hint">
+                A demonstration of a mini-app that displays your
+                profile data using requests to an internal API —
+                <a class="link" target="_blank" href="https://core.telegram.org/bots/serverless">
+                    Endpoints in Telegram Serverless
+                </a>
+            </p>
+        </header>
+
+        <section class="card">
+            <div class="card-row">
+                <span class="label">Name</span>
+                <span id="name" class="value">-</span>
+            </div>
+            <div class="card-row">
+                <span class="label">Username</span>
+                <span id="username" class="value">-</span>
+            </div>
+            <div class="card-row">
+                <span class="label">ID</span>
+                <span id="userId" class="value">-</span>
+            </div>
+        </section>
+        <button id="confirm" class="button">Got it!</button>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

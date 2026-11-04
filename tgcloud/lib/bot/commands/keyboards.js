@@ -1,5 +1,5 @@
 import { i, h, b, br, c, a, sp, s, u } from "../../cloudgram/format.js"
-import { inlineKeyboard, cb, url, web, login, sw, swCur, markupKeyboard } from "../../cloudgram/keyboard.js";
+import { inlineKeyboard, cb, url, sw, swCur } from "../../cloudgram/keyboard.js";
 
 export default async function keyboards(ctx) {
     const message = [

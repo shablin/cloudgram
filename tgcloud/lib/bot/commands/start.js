@@ -1,5 +1,6 @@
-import { i, h, b, br, c, a, sp, s, u } from "../../cloudgram/format.js"
+import { i, h, b, br, c, a, sp, } from "../../cloudgram/format.js"
 import { debug } from "../../utils.js"
+import { inlineKeyboard, url } from "../../cloudgram/keyboard.js";
 
 export default async function start(ctx) {
     const message = [
@@ -21,7 +22,16 @@ export default async function start(ctx) {
         i("Use /help to see available commands")
     ]
 
+    const keyboard = inlineKeyboard([
+        [
+            url("Open Test Mini App", "https://t.me/CloudgramRobot?startapp", "primary"),
+        ]
+    ])
+
     debug(JSON.stringify(message))
 
-    await ctx.replyHTML(message)
+    await ctx.replyHTML(
+        message, {
+            reply_markup: keyboard,
+    })
 }
