@@ -6,13 +6,22 @@ import { bot } from "../lib/cloudgram/bot.js"
 import { debug } from "../lib/utils.js"
 import "../lib/bot/routes.js"
 
-
 export default async function (message, ctx) {
   debug(
     `NEW MESSAGE`,
     `cid: ${message.chat.id}`,
     `message: ${message.text}`
   )
-  
+
   await bot.handleMessage(message)
+
+  if (message.successful_payment) {
+    const payment = message.successful_payment
+    await api.sendMessage({
+      chat_id: message.chat.id,
+      text: `Paid: ${payment.total_amount} XTR. Thank you!`
+    })
+
+    return
+  }
 }
